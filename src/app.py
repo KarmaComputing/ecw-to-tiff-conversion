@@ -12,18 +12,17 @@ from flask import (
 )
 from werkzeug.utils import secure_filename
 import subprocess
+from dotenv import load_dotenv
 
-# env settings ########################
+load_dotenv()
 
-UPLOAD_FOLDER = "/upload/folder/path"
+UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER")
 ALLOWED_EXTENSIONS_TIFF = {"tiff", "tif"}
 ALLOWED_EXTENSIONS_ECW = {"ecw"}
-# env settings end ####################
-
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "test"
-app.config["DEBUG"] = True
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+app.config["DEBUG"] = os.getenv("DEBUG")
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 

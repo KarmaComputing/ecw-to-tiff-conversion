@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -exu -o pipefail
 
 MAP_TO_CONVERT=$1
 UPLOAD_FOLDER=$2

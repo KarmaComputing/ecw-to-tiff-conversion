@@ -3,20 +3,47 @@
         <title>ecw to tiff online</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Convert ECW format to tiff online, also supports GeoTiff">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </head>
 
-    <h1>ECW to Tiff Online converter</h1>
+    <style>
+        body {
+            margin: 15px;
+        }
+        header {
+            background-color: blueviolet;
+        }
 
-    <ul>
-        <li>Convert ECW format to tiff online</li>
-        <li>Cloud Optimized GeoTiff supported</li>
-    </ul>
+        #upload-btn-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <form class="" method=post enctype=multipart/form-data>
+                    <div class="text-center mb-4">
+                        <img class="mb-4" src="https://upload.wikimedia.org/wikipedia/commons/4/45/Dem.jpg" alt="" width="72" height="72">
+                        <h1 class="h3 mb-3 font-weight-normal">ECW to Tiff Online converter</h1>
+                        <p>Convert <code>ECW</code> format to <code>tiff</code> online</p>
+                        <p>Cloud Optimized GeoTiff supported</p>
+                    </div>
 
-    <p>Please Upload your file below to start conversion</p>
-
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
+                    <div id="upload-btn-container" class="form-label-group">
+                        <input type="file" name="file" required />
+                        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Upload"/>
+                    </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <p class="mt-5 mb-3 text-muted text-center">Another Web Service &copy; 2022</p>
+            </form>
+        </div>
+    </div>
+  </body>
 
 </html>

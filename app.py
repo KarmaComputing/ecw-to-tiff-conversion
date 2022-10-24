@@ -18,8 +18,8 @@ from tasks import background_task
 load_dotenv()
 
 UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER")
-ALLOWED_EXTENSIONS_TIFF = {"tiff", "tif"}
-ALLOWED_EXTENSIONS_ECW = {"ecw"}
+ALLOWED_EXTENSIONS_TIFF = {".tiff", ".tif"}
+ALLOWED_EXTENSIONS_ECW = {".ecw"}
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -27,17 +27,16 @@ app.config["DEBUG"] = os.getenv("DEBUG")
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
-def allowed_tiff_file(filename):
-    return (
-        "." in filename
-        and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS_TIFF
-    )
+def allowed_ecw_file_extension(filename):
+    split = os.path.splitext(filename)
+    file_extension = split[1].lower()
+    return file_extension in ALLOWED_EXTENSIONS_ECW
 
 
-def allowed_ecw_file(filename):
-    return (
-        "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS_ECW
-    )
+def allowed_tiff_file_extension(filename):
+    split = os.path.splitext(filename)
+    file_extension = split[1].lower()
+    return file_extension in ALLOWED_EXTENSIONS_TIFF
 
 
 @app.route("/", methods=["GET"])
@@ -56,7 +55,11 @@ def upload_file():
         return redirect(request.url)
 
     # converting tiff to COG
-    if file and allowed_tiff_file(file.filename) or allowed_ecw_file(file.filename):
+    if (
+        file
+        and allowed_tiff_file_extension(file.filename)
+        or allowed_ecw_file_extension(file.filename)
+    ):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
         filename_hash = hashlib.md5(filename.encode("utf-8")).hexdigest()
@@ -72,15 +75,18 @@ def upload_file():
 @app.route("/upload-complete/<filename>", methods=["GET", "POST"])
 def upload_complete(filename):
     flash("Map file converted!")
-    if allowed_tiff_file(filename):
+    if allowed_tiff_file_extension(filename):
         filename = secure_filename(filename)
         convert_tif_to_cog(filename=filename)
+        return render_template("upload_complete.html", filename=filename)
 
-    if allowed_ecw_file(filename):
+    if allowed_ecw_file_extension(filename):
         filename = secure_filename(filename)
         convert_ecw_to_cog(filename=filename)
-
-    return render_template("upload_complete.html", filename=filename)
+        return render_template("upload_complete.html", filename=filename)
+    else:
+        flash("Only .tiff, .tif or .ecw allowed")
+        return render_template("homepage.html")
 
 
 @app.route("/download/<filename>", methods=["GET"])

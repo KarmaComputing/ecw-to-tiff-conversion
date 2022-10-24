@@ -9,11 +9,15 @@ from flask import (
     url_for,
     session,
     send_from_directory,
+    escape,
 )
 from werkzeug.utils import secure_filename
 import subprocess
 from dotenv import load_dotenv
 from tasks import background_task
+import smtplib, ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 load_dotenv()
 
@@ -49,9 +53,13 @@ def upload_file():
     if "file" not in request.files:
         flash("No file selected")
         return redirect(request.url)
+    email = escape(request.form["email"])
     file = request.files["file"]
     if file.filename == "":
         flash("No file selected")
+        return redirect(request.url)
+    if email == "":
+        flash("Please use an email")
         return redirect(request.url)
 
     # converting tiff to COG
@@ -65,25 +73,32 @@ def upload_file():
         filename_hash = hashlib.md5(filename.encode("utf-8")).hexdigest()
         session["file"] = {"filename_hash": filename_hash, "filename": filename}
         # Store filename_hash -> filename in the current session
-        return redirect(url_for("upload_complete", filename=filename))
+        return redirect(
+            url_for(
+                "upload_complete",
+                filename=filename,
+                email=email,
+            )
+        )
 
     else:
         flash("Only .tiff, .tif or .ecw allowed")
         return redirect(request.url)
 
 
-@app.route("/upload-complete/<filename>", methods=["GET", "POST"])
-def upload_complete(filename):
+@app.route("/upload-complete/<email>/<filename>", methods=["GET", "POST"])
+def upload_complete(filename, email):
     flash("Map file converted!")
     if allowed_tiff_file_extension(filename):
         filename = secure_filename(filename)
-        convert_tif_to_cog(filename=filename)
-        return render_template("upload_complete.html", filename=filename)
+        convert_tif_to_cog(filename=filename, email=email)
+        return render_template("upload_complete.html")
 
     if allowed_ecw_file_extension(filename):
         filename = secure_filename(filename)
-        convert_ecw_to_cog(filename=filename)
-        return render_template("upload_complete.html", filename=filename)
+        convert_ecw_to_cog(filename=filename, email=email)
+
+        return render_template("upload_complete.html")
     else:
         flash("Only .tiff, .tif or .ecw allowed")
         return render_template("homepage.html")
@@ -97,22 +112,53 @@ def download_file(filename):
 
 
 @background_task
-def convert_ecw_to_cog(app=None, filename=None):
+def convert_ecw_to_cog(app=None, filename=None, email=None):
     print(f"Running background ecw to cog on {filename}")
     with app.app_context():
         subprocess.run(
             f"./ecw-to-COG.sh {filename} {UPLOAD_FOLDER}",
             shell=True,
         )
+    send_email(email, filename)
     # TODO: a function to send an email after this process is finished
 
 
 @background_task
-def convert_tif_to_cog(app=None, filename=None):
+def convert_tif_to_cog(app=None, filename=None, email=None):
     print(f"Running background tif to cog on {filename}")
     with app.app_context():
         subprocess.run(
             f"./tif-to-COG.sh {filename} {UPLOAD_FOLDER}",
             shell=True,
         )
+    send_email(email, filename)
     # TODO: a function to send an email after this process is finished
+
+
+def send_email(email=None, filename=None):
+    port = os.getenv("PORT")
+    sender_email = os.getenv("SENDER_EMAIL")
+    smtp_server = os.getenv("SMTP_SERVER")
+    password = os.getenv("PASSWORD")
+    receiver_email = email
+    domain = os.getenv("DOMAIN")
+    message = MIMEMultipart("alternative")
+    message["Subject"] = "Your MAP conversion is ready"
+    message["From"] = sender_email
+    message["To"] = receiver_email
+    link = f"""\
+    <html>
+        <body>
+            <p> Please use this link to </p>
+            <a href="http://{domain}/download/{filename}"> download file </a>
+        </body>
+    </html>
+    """
+    part1 = MIMEText(link, "html")
+    message.attach(part1)
+    context = ssl.create_default_context()
+    with smtplib.SMTP(smtp_server, port) as server:
+        server.starttls(context=context)
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
+    print("email sent")

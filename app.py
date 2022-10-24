@@ -13,6 +13,7 @@ from flask import (
 from werkzeug.utils import secure_filename
 import subprocess
 from dotenv import load_dotenv
+from tasks import background_task
 
 load_dotenv()
 
@@ -55,30 +56,14 @@ def upload_file():
         return redirect(request.url)
 
     # converting tiff to COG
-    if file and allowed_tiff_file(file.filename):
+    if file and allowed_tiff_file(file.filename) or allowed_ecw_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-        flash("file as being uploaded, converting the file now, please wait")
         filename_hash = hashlib.md5(filename.encode("utf-8")).hexdigest()
         session["file"] = {"filename_hash": filename_hash, "filename": filename}
-        convert_tif_to_cog(filename=filename)
-        new_name = filename.rsplit(".", 1)
-        filename = new_name[0] + "_converted.tiff"
         # Store filename_hash -> filename in the current session
         return redirect(url_for("upload_complete", filename=filename))
 
-    # converting ecw to COG
-    if file and allowed_ecw_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-        flash("file as being uploaded, converting the file now, please wait")
-        filename_hash = hashlib.md5(filename.encode("utf-8")).hexdigest()
-        convert_ecw_to_cog(filename=filename)
-        session["file"] = {"filename_hash": filename_hash, "filename": filename}
-        new_name = filename.rsplit(".", 1)
-        filename = new_name[0] + "_converted.tiff"
-        # Store filename_hash -> filename in the current session
-        return redirect(url_for("upload_complete", filename=filename))
     else:
         flash("Only .tiff, .tif or .ecw allowed")
         return redirect(request.url)
@@ -87,20 +72,41 @@ def upload_file():
 @app.route("/upload-complete/<filename>", methods=["GET", "POST"])
 def upload_complete(filename):
     flash("Map file converted!")
+    if allowed_tiff_file(filename):
+        filename = secure_filename(filename)
+        convert_tif_to_cog(filename=filename)
+
+    if allowed_ecw_file(filename):
+        filename = secure_filename(filename)
+        convert_ecw_to_cog(filename=filename)
+
+    return render_template("upload_complete.html", filename=filename)
+
+
+@app.route("/download/<filename>", methods=["GET"])
+def download_file(filename):
+    new_name = filename.rsplit(".", 1)
+    filename = new_name[0] + "_converted.tiff"
     return send_from_directory(UPLOAD_FOLDER, filename)
 
 
+@background_task
 def convert_ecw_to_cog(app=None, filename=None):
     print(f"Running background ecw to cog on {filename}")
-    subprocess.run(
-        f"./ecw-to-COG.sh {filename} {UPLOAD_FOLDER}",
-        shell=True,
-    )
+    with app.app_context():
+        subprocess.run(
+            f"./ecw-to-COG.sh {filename} {UPLOAD_FOLDER}",
+            shell=True,
+        )
+    # TODO: a function to send an email after this process is finished
 
 
+@background_task
 def convert_tif_to_cog(app=None, filename=None):
     print(f"Running background tif to cog on {filename}")
-    subprocess.run(
-        f"./tif-to-COG.sh {filename} {UPLOAD_FOLDER}",
-        shell=True,
-    )
+    with app.app_context():
+        subprocess.run(
+            f"./tif-to-COG.sh {filename} {UPLOAD_FOLDER}",
+            shell=True,
+        )
+    # TODO: a function to send an email after this process is finished

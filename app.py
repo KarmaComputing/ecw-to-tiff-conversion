@@ -50,15 +50,15 @@ def home():
 def upload_file():
     if "file" not in request.files:
         flash("No file selected")
-        return redirect(request.url)
+        return redirect(url_for("home"))
     email = escape(request.form["email"])
     file = request.files["file"]
     if file.filename == "":
         flash("No file selected")
-        return redirect(request.url)
+        return redirect(url_for("home"))
     if email == "":
         flash("Please use an email")
-        return redirect(request.url)
+        return redirect(url_for("home"))
 
     # converting tiff to COG
     if (
@@ -81,7 +81,7 @@ def upload_file():
 
     else:
         flash("Only .tiff, .tif or .ecw allowed")
-        return redirect(request.url)
+        return redirect(url_for("home"))
 
 
 @app.route("/upload-complete/<email>/<filename>", methods=["GET", "POST"])
@@ -99,7 +99,7 @@ def upload_complete(filename, email):
         return render_template("upload_complete.html")
     else:
         flash("Only .tiff, .tif or .ecw allowed")
-        return render_template("homepage.html")
+        return redirect(url_for("home"))
 
 
 @app.route("/download/<filename>", methods=["GET"])
@@ -118,7 +118,6 @@ def convert_ecw_to_cog(app=None, filename=None, email=None):
             shell=True,
         )
     send_email(email, filename)
-    # TODO: a function to send an email after this process is finished
 
 
 @background_task
@@ -130,4 +129,3 @@ def convert_tif_to_cog(app=None, filename=None, email=None):
             shell=True,
         )
     send_email(email, filename)
-    # TODO: a function to send an email after this process is finished

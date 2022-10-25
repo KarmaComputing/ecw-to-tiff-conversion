@@ -15,11 +15,15 @@
             background-color: blueviolet;
         }
 
-        #upload-btn-container {
+        .center-item{
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 20px;
         }
+		label.form-label-group {
+			margin-right: 10px;
+		}
     </style>
   <body>
     <div class="container">
@@ -32,16 +36,24 @@
                         <p>Convert <code>ECW</code> format to <code>tiff</code> online</p>
                         <p>Cloud Optimized GeoTiff supported</p>
                     </div>
-
-                    <div id="upload-btn-container" class="form-label-group">
+                    <form>
+                    <div class="center-item form-label-group">
+                      <label class="form-label-group" for="email">Email</label>
+                      <input class="form-label-group" type="email" id="email" name="email" placeholder="Roger.F.Tomlinson@example.com" required />
+                    </div>
+                    <p class="center-item">
+                    Upload your file &amp; enter your email and you'll receive a download link to the converted ecw file into tiff format
+                    once conversion is complete.
+                    </p>
+                    <div class="center-item form-label-group">
                         <input type="file" name="file" required />
                         <input class="btn btn-lg btn-primary btn-block" type="submit" value="Upload"/>
                     </div>
+                    </form>
             </div>
         </div>
         <div class="row justify-content-center">
             <p class="mt-5 mb-3 text-muted text-center">Another Web Service &copy; 2022</p>
-            </form>
         </div>
     </div>
   </body>

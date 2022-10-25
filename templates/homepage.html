@@ -15,10 +15,11 @@
             background-color: blueviolet;
         }
 
-        #upload-btn-container {
+        .center-item{
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 15px;
         }
     </style>
   <body>
@@ -33,9 +34,11 @@
                         <p>Cloud Optimized GeoTiff supported</p>
                     </div>
                     <form>
+                    <div class="center-item form-label-group">
                       <label class="form-label-group" for="email">Email address</label>
-                      <input class="form-label-group" type="email" id="email" name="email" placeholder="admin@example.com" required /><br>
-                    <div id="upload-btn-container" class="form-label-group">
+                      <input class="form-label-group" type="email" id="email" name="email" placeholder="admin@example.com" required />
+                    </div>
+                    <div class="center-item form-label-group">
                         <input type="file" name="file" required />
                         <input class="btn btn-lg btn-primary btn-block" type="submit" value="Upload"/>
                     </div>

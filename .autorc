@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    "git-tag",
+    "conventional-commits",
+    "first-time-contributor",
+    "released"
+  ],
+  "owner": "KarmaComputing",
+  "repo": "ecw-to-tiff-conversion",
+  "name": "KarmaComputing",
+  "email": "enquiries@karmacomputing.co.uk"
+}

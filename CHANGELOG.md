@@ -1,3 +1,16 @@
+# v0.0.2 (Tue Dec 20 2022)
+
+#### 🐛 Bug Fix
+
+- added execut to run.sh #17 [#18](https://github.com/KarmaComputing/ecw-to-tiff-conversion/pull/18) ([@chrisjsimpson](https://github.com/chrisjsimpson))
+- fix #17 added run.sh [#18](https://github.com/KarmaComputing/ecw-to-tiff-conversion/pull/18) ([@chrisjsimpson](https://github.com/chrisjsimpson))
+
+#### Authors: 1
+
+- [@chrisjsimpson](https://github.com/chrisjsimpson)
+
+---
+
 # v0.0.1 (Thu Oct 27 2022)
 
 :tada: This release contains work from new contributors! :tada:

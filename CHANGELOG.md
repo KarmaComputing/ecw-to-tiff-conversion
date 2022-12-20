@@ -1,3 +1,16 @@
+# v0.0.3 (Tue Dec 20 2022)
+
+#### 🐛 Bug Fix
+
+- correct naming #17 [#19](https://github.com/KarmaComputing/ecw-to-tiff-conversion/pull/19) ([@chrisjsimpson](https://github.com/chrisjsimpson) [@joeltejeda](https://github.com/joeltejeda))
+
+#### Authors: 2
+
+- [@chrisjsimpson](https://github.com/chrisjsimpson)
+- [@joeltejeda](https://github.com/joeltejeda)
+
+---
+
 # v0.0.2 (Tue Dec 20 2022)
 
 #### 🐛 Bug Fix

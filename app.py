@@ -15,7 +15,7 @@ from werkzeug.utils import secure_filename
 import subprocess
 from dotenv import load_dotenv
 from tasks import background_task
-from emails import send_email
+from emails import send_email, send_notification_upload_email
 
 load_dotenv()
 
@@ -71,6 +71,7 @@ def upload_file():
         filename_hash = hashlib.md5(filename.encode("utf-8")).hexdigest()
         session["file"] = {"filename_hash": filename_hash, "filename": filename}
         # Store filename_hash -> filename in the current session
+        send_notification_upload_email()
         return redirect(
             url_for(
                 "upload_complete",

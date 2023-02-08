@@ -1,3 +1,15 @@
+# v0.0.4 (Wed Feb 08 2023)
+
+#### 🐛 Bug Fix
+
+- adding upload notification and wip bbc email [#21](https://github.com/KarmaComputing/ecw-to-tiff-conversion/pull/21) ([@joeltejeda](https://github.com/joeltejeda))
+
+#### Authors: 1
+
+- [@joeltejeda](https://github.com/joeltejeda)
+
+---
+
 # v0.0.3 (Tue Dec 20 2022)
 
 #### 🐛 Bug Fix

@@ -39,8 +39,7 @@ def send_email_to_admin(email=None, filename=None):
     sender_email = os.getenv("SENDER_EMAIL")
     smtp_server = os.getenv("SMTP_SERVER")
     password = os.getenv("PASSWORD")
-    to_addr = [os.getenv("receiver_email_1"), os.getenv("receiver_email_2")]
-    receiver_email = ", ".join(to_addr)
+    receiver_email = os.getenv("receiver_email_1")
     domain = os.getenv("DOMAIN")
     message = MIMEMultipart("alternative")
     message["Subject"] = "Your MAP conversion is ready"
@@ -60,7 +59,11 @@ def send_email_to_admin(email=None, filename=None):
     with smtplib.SMTP(smtp_server, port) as server:
         server.starttls(context=context)
         server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message.as_string())
+        server.sendmail(
+            sender_email,
+            receiver_email,
+            message.as_string(),
+        )
     print("email sent")
 
 
@@ -69,8 +72,7 @@ def send_notification_upload_email():
     sender_email = os.getenv("SENDER_EMAIL")
     smtp_server = os.getenv("SMTP_SERVER")
     password = os.getenv("PASSWORD")
-    to_addr = [os.getenv("receiver_email_1"), os.getenv("receiver_email_2")]
-    receiver_email = ", ".join(to_addr)
+    receiver_email = os.getenv("receiver_email_1")
     message = MIMEMultipart("alternative")
     message["Subject"] = "A new map has been uploaded"
     message["From"] = sender_email
@@ -88,5 +90,9 @@ def send_notification_upload_email():
     with smtplib.SMTP(smtp_server, port) as server:
         server.starttls(context=context)
         server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message.as_string())
+        server.sendmail(
+            sender_email,
+            receiver_email,
+            message.as_string(),
+        )
     print("email sent")

@@ -34,6 +34,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 app.config["DEBUG"] = os.getenv("DEBUG")
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["SERVER_NAME"] = SERVER_NAME
 
 
 def allowed_ecw_file_extension(filename):

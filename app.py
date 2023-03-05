@@ -24,6 +24,7 @@ import stripe
 
 load_dotenv()
 
+SERVER_NAME = os.getenv("SERVER_NAME")
 UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 ALLOWED_EXTENSIONS_TIFF = {".tiff", ".tif"}

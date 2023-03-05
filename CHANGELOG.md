@@ -1,3 +1,15 @@
+# v0.0.5 (Sun Mar 05 2023)
+
+#### 🐛 Bug Fix
+
+- request payment to download tiff [#22](https://github.com/KarmaComputing/ecw-to-tiff-conversion/pull/22) ([@chrisjsimpson](https://github.com/chrisjsimpson))
+
+#### Authors: 1
+
+- [@chrisjsimpson](https://github.com/chrisjsimpson)
+
+---
+
 # v0.0.4 (Wed Feb 08 2023)
 
 #### 🐛 Bug Fix

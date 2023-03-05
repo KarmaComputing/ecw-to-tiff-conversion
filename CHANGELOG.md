@@ -1,3 +1,16 @@
+# v0.0.8 (Sun Mar 05 2023)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:KarmaComputing/ecw-to-tiff-conversion ([@chrisjsimpson](https://github.com/chrisjsimpson))
+- set SERVER_NAME ([@chrisjsimpson](https://github.com/chrisjsimpson))
+
+#### Authors: 1
+
+- [@chrisjsimpson](https://github.com/chrisjsimpson)
+
+---
+
 # v0.0.7 (Sun Mar 05 2023)
 
 #### ⚠️ Pushed to `main`

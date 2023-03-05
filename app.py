@@ -157,9 +157,12 @@ def payment(filename):
             }
         ],
         mode="payment",
-        success_url=f"{url_for('download_file', filename=filename, _external=True)}",  # noqa: E501
+        success_url=f"{url_for('download_file', filename=filename, _scheme='https', _external=True)}",  # noqa: E501
         cancel_url=url_for(
-            "cancel_confirm", filename=filename, _external=True
+            "cancel_confirm",
+            filename=filename,
+            _scheme="https",
+            _external=True,  # noqa: E501
         ),  # noqa: E501
     )
     return redirect(checkout_session.url, code=303)

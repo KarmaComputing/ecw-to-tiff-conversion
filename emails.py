@@ -20,7 +20,7 @@ def send_email(email=None, filename=None):
     <html>
         <body>
             <p> Please use this link to </p>
-            <a href="http://{domain}/payment/{filename}"> download file </a>
+            <a href="https://{domain}/payment/{filename}"> download file </a>
         </body>
     </html>
     """
@@ -51,7 +51,7 @@ def send_email_to_admin(email=None, filename=None):
     <html>
         <body>
             <p> Please use this link to </p>
-            <a href="http://{domain}/download/{filename}"> download file </a>
+            <a href="https://{domain}/download/{filename}"> download file </a>
         </body>
     </html>
     """

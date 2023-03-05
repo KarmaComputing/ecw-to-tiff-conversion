@@ -1,3 +1,16 @@
+# v0.0.7 (Sun Mar 05 2023)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'payment' ([@chrisjsimpson](https://github.com/chrisjsimpson))
+- use SERVER_NAME for url_for ([@chrisjsimpson](https://github.com/chrisjsimpson))
+
+#### Authors: 1
+
+- [@chrisjsimpson](https://github.com/chrisjsimpson)
+
+---
+
 # v0.0.6 (Sun Mar 05 2023)
 
 #### ⚠️ Pushed to `main`

@@ -1,3 +1,15 @@
+# v0.0.6 (Sun Mar 05 2023)
+
+#### ⚠️ Pushed to `main`
+
+- ensure https ([@chrisjsimpson](https://github.com/chrisjsimpson))
+
+#### Authors: 1
+
+- [@chrisjsimpson](https://github.com/chrisjsimpson)
+
+---
+
 # v0.0.5 (Sun Mar 05 2023)
 
 #### 🐛 Bug Fix

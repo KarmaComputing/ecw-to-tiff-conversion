@@ -1,3 +1,65 @@
+# v0.0.8 (Sun Mar 05 2023)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:KarmaComputing/ecw-to-tiff-conversion ([@chrisjsimpson](https://github.com/chrisjsimpson))
+- set SERVER_NAME ([@chrisjsimpson](https://github.com/chrisjsimpson))
+
+#### Authors: 1
+
+- [@chrisjsimpson](https://github.com/chrisjsimpson)
+
+---
+
+# v0.0.7 (Sun Mar 05 2023)
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'payment' ([@chrisjsimpson](https://github.com/chrisjsimpson))
+- use SERVER_NAME for url_for ([@chrisjsimpson](https://github.com/chrisjsimpson))
+
+#### Authors: 1
+
+- [@chrisjsimpson](https://github.com/chrisjsimpson)
+
+---
+
+# v0.0.6 (Sun Mar 05 2023)
+
+#### ⚠️ Pushed to `main`
+
+- ensure https ([@chrisjsimpson](https://github.com/chrisjsimpson))
+
+#### Authors: 1
+
+- [@chrisjsimpson](https://github.com/chrisjsimpson)
+
+---
+
+# v0.0.5 (Sun Mar 05 2023)
+
+#### 🐛 Bug Fix
+
+- request payment to download tiff [#22](https://github.com/KarmaComputing/ecw-to-tiff-conversion/pull/22) ([@chrisjsimpson](https://github.com/chrisjsimpson))
+
+#### Authors: 1
+
+- [@chrisjsimpson](https://github.com/chrisjsimpson)
+
+---
+
+# v0.0.4 (Wed Feb 08 2023)
+
+#### 🐛 Bug Fix
+
+- adding upload notification and wip bbc email [#21](https://github.com/KarmaComputing/ecw-to-tiff-conversion/pull/21) ([@joeltejeda](https://github.com/joeltejeda))
+
+#### Authors: 1
+
+- [@joeltejeda](https://github.com/joeltejeda)
+
+---
+
 # v0.0.3 (Tue Dec 20 2022)
 
 #### 🐛 Bug Fix

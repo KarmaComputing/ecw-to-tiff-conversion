@@ -2,9 +2,7 @@
 
 ## How to run it
 ```
-python3 -m venv venv
-. venv/bin/activate
-pip install -r requirements.txt
+# change UPLOAD_FOLDER_MOUNT_PATH to the right setting
 cp .env.example .env
-FLASK_DEBUG=1 flask run
+docker-compose up --build
 ```

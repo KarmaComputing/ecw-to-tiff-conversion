@@ -177,7 +177,7 @@ def convert_ecw_to_cog(app=None, filename=None, email=None):
     print(f"Running background ecw to cog on {filename}")
     with app.app_context():
         subprocess.run(
-            f"./ecw-to-COG.sh {filename} {UPLOAD_FOLDER_MOUNT_PATH}",
+            f"./ecw-to-COG.sh {filename} '{UPLOAD_FOLDER_MOUNT_PATH}'",
             shell=True,
         )
     if SEND_EMAIL == "True":
@@ -190,7 +190,7 @@ def convert_tif_to_cog(app=None, filename=None, email=None):
     print(f"Running background tif to cog on {filename}")
     with app.app_context():
         subprocess.run(
-            f"./tif-to-COG.sh {filename} {UPLOAD_FOLDER_MOUNT_PATH}",
+            f"./tif-to-COG.sh {filename} '{UPLOAD_FOLDER_MOUNT_PATH}'",
             shell=True,
         )
     if SEND_EMAIL == "True":

@@ -12,12 +12,8 @@ RUN apt-get update && \
 RUN python3.9 -m pip install --upgrade pip
 
 USER root
-
 WORKDIR /ecw-to-tiff
-COPY ./requirements.txt /ecw-to-tiff
-RUN pip3 install -r requirements.txt
-COPY ./tif-to-COG.sh /ecw-to-tiff
-COPY ./ecw-to-COG.sh /ecw-to-tiff
 COPY ./ /ecw-to-tiff
+RUN pip3 install -r requirements.txt
 ENTRYPOINT ["/ecw-to-tiff/entrypoint.sh"]
 

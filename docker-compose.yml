@@ -3,10 +3,10 @@ services:
   ecw-to-tiff:
     build: ./app
     volumes:
-      - "./app:/ecw-to-tiff/"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - "/usr/bin/docker:/usr/local/bin/docker"
+      - "${UPLOAD_FOLDER_MOUNT_PATH}:/ecw-to-tiff/uploads"
+      - "${DOCKER_SOCKET}:/var/run/docker.sock"
+      - "${DOCKER_LIB}:/usr/local/bin/docker"
     ports: 
       - 8888:8888
     env_file:
-      - ./app/.env
+      - .env

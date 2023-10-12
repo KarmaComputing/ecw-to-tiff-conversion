@@ -1,3 +1,15 @@
+# v0.0.10 (Thu Oct 12 2023)
+
+#### ⚠️ Pushed to `main`
+
+- Update README.md ([@joeltejeda](https://github.com/joeltejeda))
+
+#### Authors: 1
+
+- [@joeltejeda](https://github.com/joeltejeda)
+
+---
+
 # v0.0.9 (Thu Oct 12 2023)
 
 #### 🐛 Bug Fix

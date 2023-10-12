@@ -1,3 +1,15 @@
+# v0.0.9 (Thu Oct 12 2023)
+
+#### 🐛 Bug Fix
+
+- wip #23 containerization [#24](https://github.com/KarmaComputing/ecw-to-tiff-conversion/pull/24) ([@joeltejeda](https://github.com/joeltejeda))
+
+#### Authors: 1
+
+- [@joeltejeda](https://github.com/joeltejeda)
+
+---
+
 # v0.0.8 (Sun Mar 05 2023)
 
 #### ⚠️ Pushed to `main`

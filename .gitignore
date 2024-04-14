@@ -3,3 +3,4 @@ venv/
 .env
 src/uploads
 app/uploads
+uploads/*

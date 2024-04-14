@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>preview - ecw to tiff online</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Convert ECW format to tiff online, also supports GeoTiff">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </head>
+
+    <style>
+        body {
+            margin: 15px;
+        }
+        header {
+            background-color: blueviolet;
+        }
+
+        .center-item{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+		label.form-label-group {
+			margin-right: 10px;
+		}
+    </style>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                    <div class="text-center mb-4">
+                        <h1 class="h3 mb-3 font-weight-normal">Preview (low resolution)</h1>
+                        <img class="mb-4" src="{{ url_for('static', filename='previews') }}/{{ previewFilename }}" alt="Preview of your converted ecw to tiff file">
+                        <p>Above is a preview of the converted tiff file</p>
+                    </div>
+                    <form>
+                    <p class="center-item">
+                    Click to pay for the high resolution tiff download- for only a few cents.
+                    </p>
+                    <div class="center-item">
+                      <a href="{{ url_for('payment', filename=filename, happyToPay=1) }}" class="btn btn-lg btn-primary btn-block">Payment</a>
+                    </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <p class="mt-5 mb-3 text-muted text-center">Another Web Service &copy; 2022</p>
+        </div>
+    </div>
+  </body>
+
+</html>

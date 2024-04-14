@@ -27,8 +27,7 @@ from pathlib import Path
 load_dotenv()
 
 SERVER_NAME = os.getenv("SERVER_NAME")
-UPLOAD_FOLDER = os.getenv("APP_UPLOAD_FOLDER")
-UPLOAD_FOLDER_MOUNT_PATH = os.getenv("UPLOAD_FOLDER_MOUNT_PATH")
+UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 ALLOWED_EXTENSIONS_TIFF = {".tiff", ".tif"}
 ALLOWED_EXTENSIONS_ECW = {".ecw"}
@@ -216,7 +215,7 @@ def convert_ecw_to_cog(app=None, filename=None, email=None):
     print(f"Running background ecw to cog on {filename}")
     with app.app_context():
         subprocess.run(
-            f"./ecw-to-COG.sh {filename} '{UPLOAD_FOLDER_MOUNT_PATH}'",
+            f"./ecw-to-COG.sh {filename} '{UPLOAD_FOLDER}'",
             shell=True,
         )
     if SEND_EMAIL == "True":
@@ -229,7 +228,7 @@ def convert_tif_to_cog(app=None, filename=None, email=None):
     print(f"Running background tif to cog on {filename}")
     with app.app_context():
         subprocess.run(
-            f"./tif-to-COG.sh {filename} '{UPLOAD_FOLDER_MOUNT_PATH}'",
+            f"./tif-to-COG.sh {filename} '{UPLOAD_FOLDER}'",
             shell=True,
         )
     if SEND_EMAIL == "True":

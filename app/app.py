@@ -21,6 +21,8 @@ from emails import (
     send_notification_upload_email,
     send_email_to_admin,
 )  # noqa: E501
+from PIL import Image
+from pathlib import Path
 
 load_dotenv()
 
@@ -143,33 +145,70 @@ def payment_complete(filename):
 
 
 @app.route("/payment/<filename>", methods=["GET"])
-def payment(filename):
-    stripe.api_key = STRIPE_SECRET_KEY
-    checkout_session = stripe.checkout.Session.create(
-        payment_method_types=["card"],
-        line_items=[
-            {
-                "price_data": {
-                    "currency": "USD",
-                    "product_data": {
-                        "name": "Your tiff download is ready",  # noqa: E501
-                        "description": f"{filename.replace('.ecw', '.tiff')}",
+def payment(filename, happyToPay=None):
+    """Show visitor a preview
+    otherwise, if happyToPay is set present in url args
+    send the user to checkout
+    """
+    filename = secure_filename(filename)
+    filename = filename.replace(Path(filename).suffix, "_converted.tiff")
+    if request.args.get("happyToPay"):
+        stripe.api_key = STRIPE_SECRET_KEY
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "USD",
+                        "product_data": {
+                            "name": "Your tiff download is ready",  # noqa: E501
+                            "description": f"{filename.replace('.ecw', '.tiff')}",  # noqa: E501
+                        },
+                        "unit_amount": 50,
                     },
-                    "unit_amount": 50,
-                },
-                "quantity": 1,
-            }
-        ],
-        mode="payment",
-        success_url=f"{url_for('download_file', filename=filename, _scheme='https', _external=True)}",  # noqa: E501
-        cancel_url=url_for(
-            "cancel_confirm",
-            filename=filename,
-            _scheme="https",
-            _external=True,  # noqa: E501
-        ),  # noqa: E501
+                    "quantity": 1,
+                }
+            ],
+            mode="payment",
+            success_url=f"{url_for('download_file', filename=filename, _scheme='https', _external=True)}",  # noqa: E501
+            cancel_url=url_for(
+                "cancel_confirm",
+                filename=filename,
+                _scheme="https",
+                _external=True,  # noqa: E501
+            ),  # noqa: E501
+        )
+        return redirect(checkout_session.url, code=303)
+
+    # Create smaller version of tiff
+    smallerFilename = (
+        f"{filename.replace(Path(filename).suffix, '')}_smaller.tiff"  # noqa: E501
     )
-    return redirect(checkout_session.url, code=303)
+    with Image.open(
+        os.path.join(app.config["UPLOAD_FOLDER"], filename)
+    ) as img:  # noqa: E501
+        img_preview = img.resize((250, 250))
+        img_preview.save(
+            os.path.join(app.config["UPLOAD_FOLDER"], smallerFilename)
+        )  # noqa: E501
+    # Create a JPEG preview
+    with Image.open(
+        os.path.join(app.config["UPLOAD_FOLDER"], smallerFilename)
+    ) as img:  # noqa: E501
+        if img.mode != "RGB":
+            img = img.convert("RGB")
+        # Save preview as JPEG
+        previewFilename = filename.replace(
+            Path(filename).suffix, "_preview.jpeg"
+        )  # noqa: E501
+        img.save(os.path.join(app.static_folder, "previews", previewFilename))
+
+    # Show preview of image
+    return render_template(
+        "preview-before-payment.html",
+        previewFilename=previewFilename,
+        filename=filename,
+    )
 
 
 @background_task

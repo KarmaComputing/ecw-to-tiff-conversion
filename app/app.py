@@ -31,7 +31,6 @@ UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 ALLOWED_EXTENSIONS_TIFF = {".tiff", ".tif"}
 ALLOWED_EXTENSIONS_ECW = {".ecw"}
-SEND_EMAIL = os.getenv("SEND_EMAIL")
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -218,9 +217,8 @@ def convert_ecw_to_cog(app=None, filename=None, email=None):
             f"./ecw-to-COG.sh {filename} '{UPLOAD_FOLDER}'",
             shell=True,
         )
-    if SEND_EMAIL == "True":
-        send_email(email, filename)
-        send_email_to_admin(email, filename)
+    send_email(email, filename)
+    send_email_to_admin(email, filename)
 
 
 @background_task
@@ -231,6 +229,5 @@ def convert_tif_to_cog(app=None, filename=None, email=None):
             f"./tif-to-COG.sh {filename} '{UPLOAD_FOLDER}'",
             shell=True,
         )
-    if SEND_EMAIL == "True":
-        send_email(email, filename)
-        send_email_to_admin(email, filename)
+    send_email(email, filename)
+    send_email_to_admin(email, filename)

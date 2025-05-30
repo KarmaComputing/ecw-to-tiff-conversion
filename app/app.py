@@ -120,8 +120,6 @@ def upload_complete(filename, email):
 @app.route("/download/<filename>", methods=["GET"])
 def download_file(filename):
     session["has_paid"] = True
-    new_name = filename.rsplit(".", 1)
-    filename = new_name[0] + "_converted.tiff"
     return send_from_directory(UPLOAD_FOLDER, filename)
 
 
@@ -149,7 +147,6 @@ def payment(filename, happyToPay=None):
     send the user to checkout
     """
     filename = secure_filename(filename)
-    filename = filename.replace(Path(filename).suffix, "_converted.tiff")
     if request.args.get("happyToPay"):
         stripe.api_key = STRIPE_SECRET_KEY
         checkout_session = stripe.checkout.Session.create(
@@ -208,7 +205,6 @@ def payment(filename, happyToPay=None):
         filename=filename,
     )
 
-
 @background_task
 def convert_ecw_to_cog(app=None, filename=None, email=None):
     print(f"Running background ecw to cog on {filename}")
@@ -217,6 +213,8 @@ def convert_ecw_to_cog(app=None, filename=None, email=None):
             f"./ecw-to-COG.sh {filename} '{UPLOAD_FOLDER}'",
             shell=True,
         )
+    new_name = filename.rsplit(".", 1)
+    filename = new_name[0] + "_converted.tiff"
     send_email(email, filename)
     send_email_to_admin(email, filename)
 
